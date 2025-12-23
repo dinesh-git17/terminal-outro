@@ -1,0 +1,134 @@
+@import 'tailwindcss';
+
+/* Terminal Dark Theme (Default and Only) */
+:root {
+  --background: #050505;
+  --foreground: #00ff00;
+  --terminal-green: #00ff00;
+  --terminal-green-dim: #00cc00;
+  --terminal-green-glow: rgba(0, 255, 0, 0.3);
+  --terminal-cyan: #00ffff;
+  --terminal-cyan-dim: #00cccc;
+  --terminal-white: #ffffff;
+  --terminal-gray: #808080;
+  --terminal-dark-gray: #404040;
+  --cursor-color: #00ff00;
+  --scanline-color: rgba(0, 0, 0, 0.1);
+  --crt-glow:
+    0 0 10px rgba(0, 255, 0, 0.5), 0 0 20px rgba(0, 255, 0, 0.3), 0 0 30px rgba(0, 255, 0, 0.1);
+  --text-shadow-glow: 0 0 5px rgba(0, 255, 0, 0.8), 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-terminal-green: var(--terminal-green);
+  --color-terminal-green-dim: var(--terminal-green-dim);
+  --color-terminal-cyan: var(--terminal-cyan);
+  --color-terminal-cyan-dim: var(--terminal-cyan-dim);
+  --color-terminal-white: var(--terminal-white);
+  --color-terminal-gray: var(--terminal-gray);
+  --color-terminal-dark-gray: var(--terminal-dark-gray);
+  --color-cursor: var(--cursor-color);
+  --font-mono: var(--font-geist-mono);
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-mono), 'Courier New', Courier, monospace;
+}
+
+/* Remove iOS tap highlight on interactive elements */
+a,
+button,
+[role='button'] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Custom text selection color */
+::selection {
+  background-color: var(--terminal-green);
+  color: var(--background);
+}
+
+::-moz-selection {
+  background-color: var(--terminal-green);
+  color: var(--background);
+}
+
+/* Terminal cursor blink animation */
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* CRT scanline effect */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+.scanlines::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--scanline-color);
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* CRT screen curvature effect */
+.crt-curve {
+  border-radius: 20px;
+  box-shadow:
+    inset 0 0 100px rgba(0, 0, 0, 0.5),
+    inset 0 0 50px rgba(0, 0, 0, 0.3);
+}
+
+/* Text glow effect */
+.text-glow {
+  text-shadow: var(--text-shadow-glow);
+}
+
+/* Typewriter effect base */
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Ensure no horizontal scroll */
+* {
+  box-sizing: border-box;
+}
+
+/* Print styles - hidden for terminal animation */
+@media print {
+  body {
+    display: none;
+  }
+}

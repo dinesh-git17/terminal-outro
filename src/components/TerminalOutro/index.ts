@@ -1,0 +1,1 @@
+export { TerminalOutro } from './TerminalOutro';
